@@ -118,12 +118,12 @@ form {
   border-radius: 7px;
 }
 
-.form-add-friend {
+.add-friend-form {
   grid-template-columns: 1fr 1.5fr;
   margin-bottom: 1.6rem;
   padding: 1.2rem;
 }
-.form-split-bill {
+.split-tab-form {
   grid-template-columns: 1fr 12rem;
   padding: 3.2rem 4rem;
 }
