@@ -70,6 +70,7 @@ export default function App() {
       </div>
       {selectedFriend && (
         <SplitTabForm
+          key={selectedFriend.id}
           selectedFriend={selectedFriend}
           onSplitTab={handleSplitTab}
         />
