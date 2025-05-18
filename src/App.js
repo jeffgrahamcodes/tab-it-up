@@ -42,6 +42,17 @@ export default function App() {
     setShowAddFriend(false);
   }
 
+  function handleSplitTab(value) {
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+    setSelectedFriend(null);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
@@ -58,7 +69,10 @@ export default function App() {
         </Button>
       </div>
       {selectedFriend && (
-        <SplitTabForm selectedFriend={selectedFriend} />
+        <SplitTabForm
+          selectedFriend={selectedFriend}
+          onSplitTab={handleSplitTab}
+        />
       )}
     </div>
   );
@@ -155,14 +169,21 @@ function AddFriendForm({ onAddFriend }) {
   );
 }
 
-function SplitTabForm({ selectedFriend }) {
+function SplitTabForm({ selectedFriend, onSplitTab }) {
   const [bill, setBill] = useState('');
   const [userAmount, setUserAmount] = useState('');
   const friendAmount = bill ? bill - userAmount : '';
   const [payer, setPayer] = useState('user');
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!bill || !userAmount) return;
+    onSplitTab(payer === 'user' ? friendAmount : -userAmount);
+  }
+
   return (
-    <form className="split-tab-form">
+    <form className="split-tab-form" onSubmit={handleSubmit}>
       <h2>Split the tab with {selectedFriend.name}</h2>
 
       <label>Bill Amount</label>
