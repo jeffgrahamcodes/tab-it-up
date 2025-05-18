@@ -156,21 +156,43 @@ function AddFriendForm({ onAddFriend }) {
 }
 
 function SplitTabForm({ selectedFriend }) {
+  const [bill, setBill] = useState('');
+  const [userAmount, setUserAmount] = useState('');
+  const friendAmount = bill ? bill - userAmount : '';
+  const [payer, setPayer] = useState('user');
+
   return (
     <form className="split-tab-form">
       <h2>Split the tab with {selectedFriend.name}</h2>
 
-      <label>Tab Amount</label>
-      <input type="text" />
+      <label>Bill Amount</label>
+      <input
+        type="text"
+        value={bill}
+        onChange={(e) => setBill(Number(e.target.value))}
+      />
 
       <label>Your Amount</label>
-      <input type="text" />
+      <input
+        type="text"
+        value={userAmount}
+        onChange={(e) =>
+          setUserAmount(
+            Number(e.target.value) > bill
+              ? userAmount
+              : Number(e.target.value)
+          )
+        }
+      />
 
       <label>{selectedFriend.name}'s Amount</label>
-      <input type="text" disabled />
+      <input type="text" disabled value={friendAmount} />
 
       <label>Who's Paying?</label>
-      <select>
+      <select
+        value={payer}
+        onChange={(e) => setPayer(e.target.value)}
+      >
         <option value="user">You</option>
         <option value="friend">{selectedFriend.name}</option>
       </select>
